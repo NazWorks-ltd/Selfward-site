@@ -205,7 +205,15 @@ button { font: inherit; color: inherit; }
 .modal-body .card-eyebrow { color: var(--accent); }
 
 /* Story */
-.story { height: 480vh; }
+.story { height: 600vh; position: relative; }
+/* Snap points, one per step: a quick flick stops on the next step instead of skipping past it */
+html { scroll-snap-type: y proximity; }
+.snap {
+  position: absolute; left: 0; width: 1px; height: 1px; pointer-events: none;
+  top: calc(var(--f) / 6 * (100% - 100vh));
+  scroll-snap-align: start; scroll-snap-stop: always;
+  scroll-margin-top: calc(-1 * (var(--nav-h, 52px) + 12px));
+}
 .story-sticky { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: clamp(32px, 6vw, 96px); width: min(1120px, 100% - 32px); margin-inline: auto; overflow: visible; }
 .captions { position: relative; height: 300px; }
 .cap { position: absolute; inset: 0; opacity: 0; transform: translateY(30px); transition: opacity .6s var(--ease), transform .6s var(--ease); pointer-events: none; }
@@ -430,7 +438,7 @@ button { font: inherit; color: inherit; }
   .nav .btn-sm { margin-left: auto; }
   .range-wrap { height: 46vh; }
   .hero-copy { padding-top: 7vh; }
-  .story { height: 440vh; }
+  .story { height: 560vh; }
   .story-sticky { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 16px; align-content: start; padding-top: calc(var(--nav-h, 52px) + 12px); justify-items: center; }
   .story-captions { width: 100%; }
   .story-captions .eyebrow { display: none; }

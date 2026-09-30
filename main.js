@@ -28,6 +28,14 @@
   const heroVeil = $('.hero-veil');
   const heroHint = $('.scroll-cue');
   const story = $('#story');
+  // One snap point in the middle of each step (two on the last: the question, then "Locked in").
+  for (const f of [.5, 1.5, 2.5, 3.5, 4.5, 5.2, 5.8]) {
+    const mark = document.createElement('i');
+    mark.className = 'snap';
+    mark.setAttribute('aria-hidden', 'true');
+    mark.style.setProperty('--f', f);
+    story.append(mark);
+  }
   const segs = $$('.seg');
   const keys = $$('.fk');
   const tower = [...$$('.tb')].reverse(); // bottom (routine) first
@@ -40,6 +48,20 @@
     'A whole morning, one habit at a time',
   ];
   const nav = $('#nav');
+
+  // The phone moves one step at a time and holds each briefly, so a fast scroll
+  // still shows every screen instead of jumping from step 2 to step 5.
+  const HOLD = reduced ? 0 : 450;
+  let storyShown = 0, storyTarget = 0, storyLate = false, storyTimer = null;
+  function stepStory() {
+    if (storyTimer) return;
+    if (storyShown !== storyTarget) storyShown += storyTarget > storyShown ? 1 : -1;
+    story.dataset.step = storyShown;
+    story.classList.toggle('late', storyShown === 5 && storyTarget === 5 && storyLate);
+    if (storyShown !== storyTarget) {
+      storyTimer = setTimeout(() => { storyTimer = null; stepStory(); }, HOLD);
+    }
+  }
 
   function render() {
     nav.classList.toggle('scrolled', scrollY > 10);
@@ -55,9 +77,9 @@
         heroHint.style.visibility = p > .02 ? 'hidden' : '';
       } else if (el === story) {
         const f = p * 6;
-        const step = Math.min(5, Math.floor(f));
-        if (story.dataset.step !== String(step)) story.dataset.step = step;
-        story.classList.toggle('late', step === 5 && f - 5 > .45);
+        storyTarget = Math.min(5, Math.floor(f));
+        storyLate = f - 5 > .45;
+        stepStory();
       } else if (el.classList.contains('formula-wrap')) {
         const cur = Math.min(3, Math.floor(clamp((p - .05) / .8) * 4));
         const done = p > .9;
