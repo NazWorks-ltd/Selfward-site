@@ -13,21 +13,20 @@
     return run > 0 ? clamp(-r.top / run) : 0;
   };
 
-  // Statement: split into words that light up as you scroll.
+  // Statement: split into words that light up in turn once it's in view.
   const statement = $('[data-words]');
   const hlFrom = statement.textContent.indexOf('Selfward builds identity.');
   let pos = 0;
-  statement.innerHTML = statement.textContent.split(' ').map((w) => {
+  statement.innerHTML = statement.textContent.split(' ').map((w, i) => {
     const hl = pos >= hlFrom && pos < hlFrom + 'Selfward builds identity.'.length;
     pos += w.length + 1;
-    return `<span class="w${hl ? ' hl' : ''}">${w}</span>`;
+    return `<span class="w${hl ? ' hl' : ''}" style="--i:${i}">${w}</span>`;
   }).join(' ');
-  const words = $$('.w', statement);
 
   const heroCopy = $('.hero-copy');
   const heroRange = $('.hero-range');
   const heroVeil = $('.hero-veil');
-  const heroHint = $('.scroll-hint');
+  const heroHint = $('.scroll-cue');
   const story = $('#story');
   const segs = $$('.seg');
   const keys = $$('.fk');
@@ -54,9 +53,6 @@
         }
         heroVeil.style.opacity = clamp((p - .55) / .45);
         heroHint.style.visibility = p > .02 ? 'hidden' : '';
-      } else if (el.classList.contains('statement-wrap')) {
-        const n = Math.round(clamp((p - .1) / .7) * words.length);
-        words.forEach((w, i) => w.classList.toggle('on', i < n));
       } else if (el === story) {
         const f = p * 6;
         const step = Math.min(5, Math.floor(f));
@@ -86,20 +82,48 @@
   const onScroll = () => {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(() => { ticking = false; render(); });
+    requestAnimationFrame(() => {
+      ticking = false;
+      // Catch a nav that changed height since the last fit (a viewer's header, the safe area settling).
+      if (nav.offsetHeight !== fittedNavH) fitPhone();
+      render();
+    });
   };
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', () => { fitPhone(); render(); });
 
   // Scale the phone to fit short mobile screens.
   // Pinned scenes start below the nav, which is taller when the phone reports a top safe area.
+  // The captions box fits its tallest caption, so no step's words run under the nav or into the phone.
+  const caps = [...document.querySelectorAll('.cap')];
+  let fittedNavH = 0;
   function fitPhone() {
     const navH = nav.offsetHeight;
+    fittedNavH = navH;
     document.documentElement.style.setProperty('--nav-h', `${navH}px`);
-    const s = innerWidth < 768 ? clamp((innerHeight - navH - 12 - 150 - 32) / 620, .5, .9) : clamp((innerHeight - navH - 48) / 620, .6, 1);
+    const capH = innerWidth < 768 ? Math.max(150, ...caps.map((c) => c.scrollHeight)) : 300;
+    story.style.setProperty('--cap-h', `${capH}px`);
+    const s = innerWidth < 768 ? clamp((innerHeight - navH - 12 - capH - 32) / 620, .5, .9) : clamp((innerHeight - navH - 48) / 620, .6, 1);
     story.style.setProperty('--phone-scale', s.toFixed(3));
   }
   fitPhone();
+
+  // Play the statement once most of it is on screen.
+  new IntersectionObserver((entries, obs) => {
+    if (entries.some((e) => e.isIntersecting)) { statement.classList.add('play'); obs.disconnect(); }
+  }, { threshold: .6 }).observe(statement);
+
+  // If nobody has scrolled a few seconds after the intro, make the cue harder to miss.
+  setTimeout(() => { if (scrollY < 10) heroHint.classList.add('urgent'); }, 8000);
+  heroHint.addEventListener('click', (e) => {
+    e.preventDefault();
+    const intro = $('#intro');
+    scrollTo({ top: intro.offsetTop, behavior: reduced ? 'auto' : 'smooth' });
+  });
+
+  // The nav can grow after load (a viewer's header, the safe area settling); re-fit when it does.
+  if ('ResizeObserver' in window) new ResizeObserver(() => fitPhone()).observe(nav, { box: 'border-box' });
+  document.fonts?.ready.then(fitPhone);
   render();
 
   /* ---------- Reveal on enter, and counters ---------- */
@@ -187,7 +211,7 @@
   /* ---------- Map hotspots ---------- */
   const HS = {
     peak: ['Every peak is a stack.', 'Each stack of habits becomes its own mountain. Lock in every habit on the way up and the summit is yours.'],
-    trail: ['Solid is walked. Dashed is ahead.', 'The amber trail shows habits you’ve locked in. The dashed line is your queue, projected forward assuming no misses.'],
+    trail: ['Solid is walked. Dashed is ahead.', 'The amber trail shows habits you’ve locked in. The dashed line is your queue, projected forward at the pace you’ve actually been keeping.'],
     stops: ['Stops are habits.', 'A filled stop is locked in. A glowing ring is the one you’re building now. A hollow stop is up next.'],
     flag: ['The flag is who you’re becoming.', 'The summit isn’t a streak count. It’s “I am a runner.” Every stop on every trail leads there.'],
     eta: ['An honest arrival date.', 'Selfward projects your queue forward, one habit at a time, and tells you when you’ll get there at your current pace. It’s realistic, not a promise to change everything by Friday.'],

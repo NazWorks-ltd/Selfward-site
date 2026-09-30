@@ -80,12 +80,12 @@
       </svg>
     </div>
     <div class="hero-veil" aria-hidden="true"></div>
-    <div class="scroll-hint hero-in" style="--d:3.3s" aria-hidden="true"><span></span></div>
+    <a class="scroll-cue hero-in" style="--d:3.2s" href="#intro"><span>Scroll to explore</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
   </div>
 </section>
 
 <!-- 2. Statement -->
-<section class="statement-wrap" data-scroll>
+<section class="statement-wrap" id="intro" data-scroll>
   <div class="sticky statement-sticky">
     <p class="statement" data-words>Most habit apps count streaks. Selfward builds identity. It helps you decide who you're becoming, stack tiny habits onto the things you already do, and it keeps you from taking on too much, too soon.</p>
   </div>
@@ -229,12 +229,12 @@
     <div class="story-captions">
       <p class="eyebrow">How it works</p>
       <div class="captions">
-        <div class="cap"><span class="cap-n">01</span><h2>Start with who.</h2><p>Pick the person you're becoming. Every habit after this is a vote for them.</p></div>
-        <div class="cap"><span class="cap-n">02</span><h2>Find the cue you never skip.</h2><p>Pouring coffee, brushing your teeth, getting into bed. These already happen every day, so they make good anchors.</p></div>
-        <div class="cap"><span class="cap-n">03</span><h2>Stack something tiny on top.</h2><p>After I pour my coffee, I'll put on my running shoes. Keep it small enough that you can't say no.</p></div>
-        <div class="cap"><span class="cap-n">04</span><h2>Now make it easy.</h2><p>Selfward asks what you can set up ahead of time, so the habit is right in front of you when the cue comes.</p></div>
-        <div class="cap"><span class="cap-n">05</span><h2>Show up. Missed a day? Fine.</h2><p>Missing one day keeps your run going. Miss two in a row and it starts over. Never miss twice.</p></div>
-        <div class="cap"><span class="cap-n">06</span><h2>Lock it in.</h2><p>Once it happens without thinking, it comes off your list for good, and the next habit starts on top of it.</p></div>
+        <div class="cap"><span class="cap-n">Step 1 of 6</span><h2>Start with who.</h2><p>Pick the person you're becoming. Every habit after this is a vote for them.</p></div>
+        <div class="cap"><span class="cap-n">Step 2 of 6</span><h2>Find the cue you never skip.</h2><p>Pouring coffee, brushing your teeth, getting into bed. These already happen every day, so they make good anchors.</p></div>
+        <div class="cap"><span class="cap-n">Step 3 of 6</span><h2>Stack something tiny on top.</h2><p>After I pour my coffee, I'll put on my running shoes. Keep it small enough that you can't say no.</p></div>
+        <div class="cap"><span class="cap-n">Step 4 of 6</span><h2>Now make it easy.</h2><p>Selfward asks what you can set up ahead of time, so the habit is right in front of you when the cue comes.</p></div>
+        <div class="cap"><span class="cap-n">Step 5 of 6</span><h2>Show up. Missed a day? Fine.</h2><p>Missing one day keeps your run going. Miss two in a row and it starts over. Never miss twice.</p></div>
+        <div class="cap"><span class="cap-n">Step 6 of 6</span><h2>Lock it in.</h2><p>Once it happens without thinking, it comes off your list for good. Then you choose what stacks on top of it next.</p></div>
       </div>
       <div class="story-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </div>
@@ -246,7 +246,7 @@
         <p class="s-title">Who do you want to become?</p>
         <p class="s-sub">Lasting change starts with who you are, not what you want to get done.</p>
         <div class="chips">
-          <span>Body</span><span class="on">Fitness</span><span>Mind</span><span>Learning</span><span>Creative</span><span>Discipline</span><span>Relationships</span><span>Money</span>
+          <span>Health and body</span><span class="on">Fitness and sport</span><span>Calm and mindfulness</span><span>Learning and reading</span><span>Creativity</span><span>Focus and discipline</span><span>Family and relationships</span><span>Money</span>
         </div>
         <div class="s-iam">I am<br><em>a runner.</em></div>
       </div>
@@ -367,7 +367,7 @@
       <article class="guard reveal">
         <p class="g-num"><span data-count="2">0</span></p>
         <h3>Start with one or two.</h3>
-        <p>If you try to start a third new habit at once, the builder steps in: "Most people do best starting with 1 or 2."</p>
+        <p>Most people do best with 1 or 2, and Selfward keeps it to 3. Try to start a fourth and it steps in: "That's a lot at once." Waiting in Up next is the easy choice.</p>
       </article>
       <article class="guard reveal">
         <p class="g-num g-word">Queue</p>
@@ -478,11 +478,11 @@
     <div class="compare reveal" role="table" aria-label="Selfward compared with typical habit trackers">
       <div class="cmp-head" role="row"><span role="columnheader"></span><span role="columnheader">Typical habit tracker</span><span role="columnheader" class="acc">Selfward</span></div>
       <div class="cmp-row" role="row"><span role="rowheader">Starts with</span><span role="cell">A list of tasks</span><span role="cell">Who you're becoming</span></div>
-      <div class="cmp-row" role="row"><span role="rowheader">Triggers</span><span role="cell">A reminder at 8:00</span><span role="cell">A routine you already do</span></div>
+      <div class="cmp-row" role="row"><span role="rowheader">Triggers</span><span role="cell">A reminder at 8:00</span><span role="cell">Your routine, with a nudge around when it happens</span></div>
       <div class="cmp-row" role="row"><span role="rowheader">New habits</span><span role="cell">Add as many as you like</span><span role="cell">A queue, one or two at a time</span></div>
       <div class="cmp-row" role="row"><span role="rowheader">Over time</span><span role="cell">The list keeps growing</span><span role="cell">Habits lock in and come off the list</span></div>
       <div class="cmp-row" role="row"><span role="rowheader">Missed a day</span><span role="cell">Streak broken</span><span role="cell">Never miss twice</span></div>
-      <div class="cmp-row" role="row"><span role="rowheader">Progress</span><span role="cell">A streak number</span><span role="cell">A map, with an honest arrival date</span></div>
+      <div class="cmp-row" role="row"><span role="rowheader">Progress</span><span role="cell">A streak number</span><span role="cell">A map, not just a streak number</span></div>
       <div class="cmp-row" role="row"><span role="rowheader">When it's not working</span><span role="cell">Guilt</span><span role="cell">A check-up: smaller, new cue, or pause</span></div>
       <div class="cmp-row" role="row"><span role="rowheader">Your data</span><span role="cell">In someone's cloud</span><span role="cell">Stays on your phone</span></div>
     </div>

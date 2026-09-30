@@ -70,7 +70,7 @@ button { font: inherit; color: inherit; }
 .nav-links a:hover { color: var(--text); }
 
 /* Hero */
-.hero { height: 230vh; }
+.hero { height: 190vh; }
 .hero-sticky { display: flex; flex-direction: column; align-items: center; }
 .hero-copy { position: relative; z-index: 3; text-align: center; padding: 9vh 16px 0; will-change: transform, opacity; }
 .hero-title { font-size: clamp(56px, 11vw, 148px); line-height: .95; letter-spacing: -.05em; font-weight: 700; margin-top: 4px; }
@@ -103,17 +103,27 @@ button { font: inherit; color: inherit; }
 @keyframes flag { to { transform: scaleX(1); } }
 @keyframes fade { to { opacity: 1; } }
 .hero-veil { position: absolute; inset: 0; background: var(--bg); opacity: 0; z-index: 4; pointer-events: none; }
-.scroll-hint { position: absolute; bottom: 22px; left: 50%; margin-left: -11px; width: 22px; height: 34px; border: 2px solid rgba(242, 242, 242, .35); border-radius: 12px; z-index: 3; }
-.scroll-hint span { position: absolute; left: 50%; top: 6px; width: 3px; height: 7px; margin-left: -1.5px; background: var(--text); border-radius: 2px; animation: wheel 1.8s ease infinite; }
-@keyframes wheel { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(10px); } }
+/* Scroll cue: appears after the intro, pulses harder if nobody has scrolled */
+.scroll-cue {
+  position: absolute; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); left: 50%; z-index: 3;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; margin-left: -80px; width: 160px;
+  color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600;
+  padding: 10px 16px 6px; border-radius: 999px; background: rgba(11, 11, 12, .6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.scroll-cue svg { width: 22px; height: 22px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(5px); } }
+.scroll-cue.urgent { color: var(--accent); }
+.scroll-cue.urgent svg { animation-duration: .9s; }
+.scroll-cue.urgent { box-shadow: 0 0 0 0 rgba(245, 165, 36, .5); animation: rise 1s var(--ease) forwards, ping 1.8s 1s infinite; }
 
 /* Statement */
-.statement-wrap { height: 220vh; }
+.statement-wrap { height: 150vh; }
 .statement-sticky { display: grid; place-items: center; }
 .statement { width: min(1000px, 100% - 32px); font-size: clamp(30px, 4.6vw, 60px); line-height: 1.14; letter-spacing: -.03em; font-weight: 700; }
-.statement .w { opacity: .14; transition: opacity .25s linear; }
-.statement .w.on { opacity: 1; }
-.statement .w.hl.on { color: var(--accent); }
+.statement .w { opacity: .28; transition: opacity .35s ease, color .35s ease; transition-delay: calc(var(--i, 0) * 45ms); }
+/* Plays on its own once in view: about 1.6s, no scrolling needed */
+.statement.play .w { opacity: 1; }
+.statement.play .w.hl { color: var(--accent); }
 
 /* Sections */
 .section { padding: clamp(96px, 14vh, 160px) 0; }
@@ -195,7 +205,7 @@ button { font: inherit; color: inherit; }
 .modal-body .card-eyebrow { color: var(--accent); }
 
 /* Story */
-.story { height: 720vh; }
+.story { height: 480vh; }
 .story-sticky { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: clamp(32px, 6vw, 96px); width: min(1120px, 100% - 32px); margin-inline: auto; overflow: visible; }
 .captions { position: relative; height: 300px; }
 .cap { position: absolute; inset: 0; opacity: 0; transform: translateY(30px); transition: opacity .6s var(--ease), transform .6s var(--ease); pointer-events: none; }
@@ -287,7 +297,7 @@ button { font: inherit; color: inherit; }
 .story[data-step="5"].late .c-done { opacity: 1; transform: none; }
 
 /* Formula */
-.formula-wrap { height: 320vh; padding: 0; }
+.formula-wrap { height: 220vh; padding: 0; }
 .formula-sticky { display: grid; place-items: center; }
 .formula { font-size: clamp(32px, 5.2vw, 68px); line-height: 1.12; letter-spacing: -.035em; font-weight: 700; margin-top: 10px; }
 .seg { position: relative; color: var(--hair-strong); transition: color .5s ease; }
@@ -300,7 +310,7 @@ button { font: inherit; color: inherit; }
 .fk.on { border-color: var(--accent); }
 
 /* Tower */
-.tower-wrap { height: 460vh; }
+.tower-wrap { height: 300vh; }
 .tower-sticky { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: clamp(32px, 6vw, 80px); overflow: visible; }
 .tower-status { display: flex; align-items: center; gap: 10px; margin-top: 30px; font-weight: 600; }
 .ts-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(245, 165, 36, .6); animation: ping 1.8s infinite; }
@@ -419,13 +429,12 @@ button { font: inherit; color: inherit; }
   .nav-links { display: none; }
   .nav .btn-sm { margin-left: auto; }
   .range-wrap { height: 46vh; }
-  .scroll-hint { display: none; }
   .hero-copy { padding-top: 7vh; }
-  .story { height: 640vh; }
+  .story { height: 440vh; }
   .story-sticky { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 16px; align-content: start; padding-top: calc(var(--nav-h, 52px) + 12px); justify-items: center; }
   .story-captions { width: 100%; }
   .story-captions .eyebrow { display: none; }
-  .captions { height: 150px; }
+  .captions { height: var(--cap-h, 170px); }
   .cap h2 { font-size: 28px; margin: 4px 0 8px; }
   .cap p { font-size: 15px; }
   .story-progress { display: none; }
