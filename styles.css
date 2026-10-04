@@ -435,9 +435,12 @@ html { scroll-snap-type: y proximity; }
 .beta-perks li b { color: var(--text); }
 .beta-req { color: var(--faint); font-size: 14px; margin-top: 22px; }
 .beta-form { border: 1px solid rgba(245, 165, 36, .35); min-height: 320px; display: grid; }
-.beta-form iframe { width: 100%; min-height: 480px; border: 0; display: block; }
+/* Matching the form's color scheme keeps the browser from painting a white backdrop behind it */
+.beta-form iframe { width: 100%; min-height: 560px; border: 0; display: block; color-scheme: light; }
 .beta-soon { align-self: center; justify-self: center; color: var(--muted); font-weight: 600; }
 .beta-privacy { color: var(--faint); font-size: 13px; margin-top: 18px; }
+.beta-privacy a, .footer-link { color: var(--muted); }
+.footer-link:hover, .beta-privacy a:hover { color: var(--text); }
 .footer { border-top: 1px solid var(--hair); padding: 28px 16px 40px; text-align: center; font-size: 13px; display: grid; gap: 6px; }
 
 /* Tablet and phone */

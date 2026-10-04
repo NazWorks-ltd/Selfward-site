@@ -165,12 +165,12 @@
     frame.title = 'Selfward beta signup';
     frame.loading = 'lazy';
     frame.dataset.tallySrc = src;
+    frame.src = src;
     betaForm.replaceChildren(frame);
-    // Tally's script sizes the form to its content; without it, the form still loads at a fixed height.
+    // Tally's script only resizes the form to fit its questions; without it, the form keeps a fixed height.
     const script = document.createElement('script');
     script.src = 'https://tally.so/widgets/embed.js';
     script.onload = () => window.Tally?.loadEmbeds();
-    script.onerror = () => { frame.src = src; };
     document.body.append(script);
   }
 
