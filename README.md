@@ -28,7 +28,7 @@ CSS handles all the transitions. With `prefers-reduced-motion`, animations are t
 
 ## Before launch
 
-- Point the "Join the TestFlight beta" buttons (`href="#beta"`) at your public TestFlight link or a sign-up form.
+- Beta signup: paste your Tally form ID into `data-tally-form` on `#betaForm` in `index.html`. Until then the section shows "Beta signups open soon."
 - The phone screens are HTML mockups. You can swap them for simulator screenshots later if you want.
 
 ## Deploy

@@ -205,7 +205,7 @@ button { font: inherit; color: inherit; }
 .modal-body .card-eyebrow { color: var(--accent); }
 
 /* Story */
-.story { height: 600vh; position: relative; }
+.story { height: 400vh; position: relative; }
 /* Snap points, one per step: a quick flick stops on the next step instead of skipping past it */
 html { scroll-snap-type: y proximity; }
 .snap {
@@ -424,7 +424,20 @@ html { scroll-snap-type: y proximity; }
 /* Final */
 .final { text-align: center; padding: clamp(100px, 18vh, 200px) 16px; display: flex; flex-direction: column; align-items: center; }
 .final-mark { width: 120px; height: 120px; border-radius: 28px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 1px var(--hair), 0 30px 80px rgba(245, 165, 36, .12); margin-bottom: 36px; }
-.final .lede { margin-inline: auto; margin-bottom: 32px; }
+.final .lede { margin-inline: auto; margin-bottom: 40px; }
+/* Beta signup: perks beside the Tally form */
+.beta { width: min(1000px, 100%); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; text-align: left; }
+.beta-perks, .beta-form { background: var(--surface); border-radius: 28px; padding: 32px; }
+.beta-perks h3 { font-size: 22px; letter-spacing: -.02em; margin-bottom: 18px; }
+.beta-perks ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.beta-perks li { color: var(--muted); padding-left: 26px; position: relative; }
+.beta-perks li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.beta-perks li b { color: var(--text); }
+.beta-req { color: var(--faint); font-size: 14px; margin-top: 22px; }
+.beta-form { border: 1px solid rgba(245, 165, 36, .35); min-height: 320px; display: grid; }
+.beta-form iframe { width: 100%; min-height: 480px; border: 0; display: block; }
+.beta-soon { align-self: center; justify-self: center; color: var(--muted); font-weight: 600; }
+.beta-privacy { color: var(--faint); font-size: 13px; margin-top: 18px; }
 .footer { border-top: 1px solid var(--hair); padding: 28px 16px 40px; text-align: center; font-size: 13px; display: grid; gap: 6px; }
 
 /* Tablet and phone */
@@ -438,7 +451,7 @@ html { scroll-snap-type: y proximity; }
   .nav .btn-sm { margin-left: auto; }
   .range-wrap { height: 46vh; }
   .hero-copy { padding-top: 7vh; }
-  .story { height: 560vh; }
+  .story { height: 400vh; }
   .story-sticky { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 16px; align-content: start; padding-top: calc(var(--nav-h, 52px) + 12px); justify-items: center; }
   .story-captions { width: 100%; }
   .story-captions .eyebrow { display: none; }
@@ -456,7 +469,8 @@ html { scroll-snap-type: y proximity; }
   .tower-status { margin-top: 12px; font-size: 15px; }
   .tower { gap: 8px; }
   .tb { padding: 11px 14px; font-size: 15px; }
-  .guards, .ways, .stats { grid-template-columns: 1fr; }
+  .guards, .ways, .stats, .beta { grid-template-columns: 1fr; }
+  .beta-perks, .beta-form { padding: 24px; }
   .card { min-height: 500px; }
   .map-stage { width: 760px; margin-inline: 16px; }
   .pop { position: fixed; left: 12px !important; right: 12px; top: auto !important; bottom: 12px; width: auto; }

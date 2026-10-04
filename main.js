@@ -28,8 +28,8 @@
   const heroVeil = $('.hero-veil');
   const heroHint = $('.scroll-cue');
   const story = $('#story');
-  // One snap point in the middle of each step (two on the last: the question, then "Locked in").
-  for (const f of [.5, 1.5, 2.5, 3.5, 4.5, 5.2, 5.8]) {
+  // One snap point in the middle of each step, so one flick moves one step.
+  for (const f of [.5, 1.5, 2.5, 3.5, 4.5, 5.5]) {
     const mark = document.createElement('i');
     mark.className = 'snap';
     mark.setAttribute('aria-hidden', 'true');
@@ -52,12 +52,21 @@
   // The phone moves one step at a time and holds each briefly, so a fast scroll
   // still shows every screen instead of jumping from step 2 to step 5.
   const HOLD = reduced ? 0 : 450;
-  let storyShown = 0, storyTarget = 0, storyLate = false, storyTimer = null;
+  let storyShown = 0, storyTarget = 0, storyTimer = null, lateTimer = null;
   function stepStory() {
     if (storyTimer) return;
     if (storyShown !== storyTarget) storyShown += storyTarget > storyShown ? 1 : -1;
     story.dataset.step = storyShown;
-    story.classList.toggle('late', storyShown === 5 && storyTarget === 5 && storyLate);
+    // On the last step, the "Lock it in?" question turns into "Locked in." on its own.
+    if (storyShown === 5) {
+      if (!lateTimer && !story.classList.contains('late')) {
+        lateTimer = setTimeout(() => { lateTimer = null; story.classList.add('late'); }, reduced ? 0 : 1400);
+      }
+    } else {
+      clearTimeout(lateTimer);
+      lateTimer = null;
+      story.classList.remove('late');
+    }
     if (storyShown !== storyTarget) {
       storyTimer = setTimeout(() => { storyTimer = null; stepStory(); }, HOLD);
     }
@@ -78,7 +87,6 @@
       } else if (el === story) {
         const f = p * 6;
         storyTarget = Math.min(5, Math.floor(f));
-        storyLate = f - 5 > .45;
         stepStory();
       } else if (el.classList.contains('formula-wrap')) {
         const cur = Math.min(3, Math.floor(clamp((p - .05) / .8) * 4));
@@ -147,6 +155,24 @@
   if ('ResizeObserver' in window) new ResizeObserver(() => fitPhone()).observe(nav, { box: 'border-box' });
   document.fonts?.ready.then(fitPhone);
   render();
+
+  /* ---------- Beta signup (Tally) ---------- */
+  const betaForm = $('#betaForm');
+  const tallyId = betaForm.dataset.tallyForm.trim();
+  if (tallyId) {
+    const frame = document.createElement('iframe');
+    const src = `https://tally.so/embed/${encodeURIComponent(tallyId)}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
+    frame.title = 'Selfward beta signup';
+    frame.loading = 'lazy';
+    frame.dataset.tallySrc = src;
+    betaForm.replaceChildren(frame);
+    // Tally's script sizes the form to its content; without it, the form still loads at a fixed height.
+    const script = document.createElement('script');
+    script.src = 'https://tally.so/widgets/embed.js';
+    script.onload = () => window.Tally?.loadEmbeds();
+    script.onerror = () => { frame.src = src; };
+    document.body.append(script);
+  }
 
   /* ---------- Reveal on enter, and counters ---------- */
   const countUp = (el) => {
